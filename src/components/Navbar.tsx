@@ -1,9 +1,9 @@
-import { HomeIcon, LogIn, LogInIcon, Sprout } from "lucide-react";
+import { HomeIcon, LogIn, LogInIcon, LogOut, Sprout } from "lucide-react";
 import Link from "next/link";
 import { Button } from "./ui/button";
 import ModeToggle from "./ModeToggle";
 import { stackServerApp } from "@/stack";
-import { StackServerApp } from "@stackframe/stack";
+import { StackServerApp, UserButton } from "@stackframe/stack";
 import { getUserDetails } from "@/actions/user.action";
 
 
@@ -49,13 +49,27 @@ async function Navbar() {
 
                 <ModeToggle/>
 
-                                
-                <Button variant="ghost" className="flex items-center gap-2" asChild>
-                    <Link href={app.signIn}>
-                        <LogIn className="w-4 h-4"/>
-                        <span className="hidden lg:inline">Sign In</span>
-                    </Link>
-                </Button>
+                {user ? (
+                    <>
+                    {/* sign out */}
+                    <Button variant="ghost" className="flex items-center gap-2" asChild>
+                        <Link href={app.signOut}>
+                            <LogOut className="w-4 h-4"/>
+                            <span className="hidden lg:inline">Sign Out</span>
+                        </Link>
+                    </Button>
+                    <UserButton/>
+                    </>
+                ) : (
+
+                    <Button variant="ghost" className="flex items-center gap-2" asChild>
+                        <Link href={app.signIn}>
+                            <LogIn className="w-4 h-4"/>
+                            <span className="hidden lg:inline">Sign In</span>
+                        </Link>
+                    </Button>
+                )}
+
             </div>
 
             </div>
