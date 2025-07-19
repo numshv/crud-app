@@ -54,13 +54,17 @@ const plantCategories = [
   },
   {
     value: "Shrub",
-    label: "Shrub",
+    label: "Shrub", 
   },
 ]
 
-export function Combobox() {
+interface ComboboxProps {
+  value: string;
+  onChange: (value: string) => void;
+}
+
+export function Combobox({ value, onChange }: ComboboxProps) {
   const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState("")
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -88,7 +92,7 @@ export function Combobox() {
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? "" : currentValue)
+                    onChange(currentValue === value ? "" : currentValue)
                     setOpen(false)
                   }}
                 >
