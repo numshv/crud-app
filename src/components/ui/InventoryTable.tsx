@@ -15,46 +15,30 @@ import { Button } from "./button";
 import { Sprout } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { getPlants } from "@/actions/plant.action";
 
-const plants = [
-  {
-    id: 101,
-    name: "Wireless Headphones",
-    category: "Electronics",
-    price: 59.99,
-    stock: 120,
-  },
-  {
-    id: 101,
-    name: "Wireless Headphones",
-    category: "Electronics",
-    price: 59.99,
-    stock: 120,
-  },
-  {
-    id: 101,
-    name: "Wireless Headphones",
-    category: "Electronics",
-    price: 59.99,
-    stock: 120,
-  },
-  {
-    id: 101,
-    name: "Wireless Headphones",
-    category: "Electronics",
-    price: 59.99,
-    stock: 120,
-  }
-];
 
-export default function InventoryTable() {
-  const [selectedCategory, setSelectedCategory] = useState("")
+type Plants = Awaited<ReturnType<typeof getPlants>>
+
+interface InventoryTableProps{
+    plants: Plants
+}
+
+export default function InventoryTable({plants}: InventoryTableProps) {
+  const [selectedCategory, setSelectedCategory] = useState<string>("")
+  const [searchTerm, setSearchTerm] = useState("")
+
+  const filteredPlants = plants?.userPlants?.filter((plant : any) =>
+        plant.name.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        (selectedCategory === "" || plant.category === selectedCategory)
+    
+  )
 
   return (
     <div>
         <div className="flex justify-between w-full py-4">
             <div className="flex justify-between w-1/2 gap-8">
-                <Input placeholder ="Filter plants ..."/>
+                <Input placeholder ="Filter plants ..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
                 <Combobox value={selectedCategory} onChange={(val) => setSelectedCategory(val)}/>
             </div>
             <Button variant="default" className="flex items-center gap-2" asChild>
@@ -77,7 +61,7 @@ export default function InventoryTable() {
             </TableRow>
             </TableHeader>
             <TableBody className="overflow-hidden">
-            {plants.map((plant) => (
+            {filteredPlants.map((plant : any) => (
                 <TableRow
                 key={plant.id}
                 className="odd:bg-muted/50 [&>*]:whitespace-nowrap"
