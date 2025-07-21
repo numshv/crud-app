@@ -18,6 +18,7 @@ import { useState } from "react";
 import { getPlants } from "@/actions/plant.action";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "./skeleton";
+import { CreateDialog } from "../CreateDialog";
 
 
 type Plants = Awaited<ReturnType<typeof getPlants>>
@@ -115,12 +116,7 @@ export default function InventoryTable({plants}: InventoryTableProps) {
                 <Input placeholder ="Filter plants ..." value={searchTerm} onChange={(e) => setSearchTerm(e.target.value)}/>
                 <Combobox value={selectedCategory} onChange={(val) => setSelectedCategory(val)}/>
             </div>
-            <Button variant="default" className="flex items-center gap-2" asChild>
-                <Link href="/plants">
-                    <Sprout className=""/>
-                    <span className="hidden lg:inline">Add new plant</span>
-                </Link>
-            </Button>
+            <CreateDialog/>
         </div>
         <div className="grid w-full h-max [&>div]:border [&>div]:rounded">
         <Table>

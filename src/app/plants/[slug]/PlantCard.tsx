@@ -18,7 +18,7 @@ export default function PlantCard({plant}: PlantCardProps){
   if (!plant) {
     return <div className="text-red-500">Plant not found.</div>;
   }
-  
+
   return (
     <div className="w-full h-full px-10 py-5">
       <Card className="shadow-none">
@@ -26,7 +26,9 @@ export default function PlantCard({plant}: PlantCardProps){
         </CardHeader> */}
 
         <CardContent className="text-[15px] text-muted-foreground px-5 py-5 flex flex-row gap-10 flex-wrap justify-between">
-          <div className="w-[640px] aspect-video bg-muted rounded-xl" />
+          <div className="w-[640px] aspect-video bg-muted rounded-xl justify-center items-center">
+            no image uploaded
+          </div>
           <div className="flex flex-col gap-4 min-w-[50%]">
               <h1 className="text-4xl text-primary font-bold">{plant.name}</h1>
               <h2 className="text-2xl text-primary font-bold">${plant.price}</h2>
