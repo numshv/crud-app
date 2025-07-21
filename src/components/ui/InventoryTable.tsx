@@ -16,6 +16,8 @@ import { Sprout } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { getPlants } from "@/actions/plant.action";
+import { useRouter } from "next/navigation";
+import { Skeleton } from "./skeleton";
 
 
 type Plants = Awaited<ReturnType<typeof getPlants>>
@@ -25,6 +27,7 @@ interface InventoryTableProps{
 }
 
 export default function InventoryTable({plants}: InventoryTableProps) {
+  const router = useRouter()
   const [selectedCategory, setSelectedCategory] = useState<string>("")
   const [searchTerm, setSearchTerm] = useState("")
 
@@ -33,6 +36,77 @@ export default function InventoryTable({plants}: InventoryTableProps) {
         (selectedCategory === "" || plant.category === selectedCategory)
     
   )
+
+  if(!plants){
+    return(
+        <div className="w-full space-y-4">
+            <div className="flex items-center gap-2 py-4">
+                <Skeleton className="h-10 w-full max-w-sm"/>
+                <Skeleton className="h-10 w-32"/>
+                <Skeleton className="h-10 w-32"/>
+            </div>
+            <Table>
+                <TableHeader>
+                    <TableRow className="[&>*]:whitespace-nowrap sticky top-0 bg-background after:content-[''] after:inset-x-0 after:h-px after:bg-border after:absolute after:bottom-0">
+                        <TableHead>
+                            <Skeleton className="w-full h-4"/>
+                        </TableHead>
+                        <TableHead>
+                            <Skeleton className="w-full h-4"/>
+                        </TableHead>
+                        <TableHead>
+                            <Skeleton className="w-full h-4"/>
+                        </TableHead>
+                        <TableHead>
+                            <Skeleton className="w-full h-4"/>
+                        </TableHead>
+                        <TableHead>
+                            <Skeleton className="w-full h-4"/>
+                        </TableHead>
+                        <TableHead className="">
+                            <Skeleton className="w-full h-4"/>
+                        </TableHead>
+                    </TableRow>
+                </TableHeader>
+                <TableBody className="overflow-hidden">
+                {filteredPlants?.map((plant) => {
+                    const slugifiedName = plant.name.toLowerCase().replace(/\s+/g, "-")
+                    const slug = `${plant.id}--${slugifiedName}`
+                    const plantUrl = `/plants/${slug}`
+                
+                    return (
+                        <TableRow
+                        key={plant.id}
+                        className="odd:bg-muted/50 [&>*]:whitespace-nowrap"
+                        onClick={() => router.push(plantUrl)}
+                        >
+                            <TableCell className="font-medium">
+                                <Skeleton className="w-full h-4"/>
+                            </TableCell>
+                            <TableCell className="font-medium">
+                                <Skeleton className="w-full h-4"/>
+                            </TableCell>
+                            <TableCell>
+                                <Skeleton className="w-full h-4"/>
+                            </TableCell>
+                            <TableCell>
+                                <Skeleton className="w-full h-4"/>
+                            </TableCell>
+                            <TableCell className="font-bold">
+                                <Skeleton className="w-full h-4"/>
+                            </TableCell>
+
+                            <TableCell className="text-right">
+                                <Skeleton className="w-full h-4"/>
+                            </TableCell>
+                        </TableRow>
+                    )
+                })}
+                </TableBody>
+            </Table>
+        </div>
+    )
+  }
 
   return (
     <div>
@@ -61,25 +135,32 @@ export default function InventoryTable({plants}: InventoryTableProps) {
             </TableRow>
             </TableHeader>
             <TableBody className="overflow-hidden">
-            {filteredPlants.map((plant : any) => (
-                <TableRow
-                key={plant.id}
-                className="odd:bg-muted/50 [&>*]:whitespace-nowrap"
-                >
-                <TableCell className="font-medium">{plant.id}</TableCell>
-                <TableCell className="font-medium">{plant.name}</TableCell>
-                <TableCell>{plant.category}</TableCell>
-                <TableCell>{plant.price}</TableCell>
-                <TableCell className="font-bold">{plant.stock}</TableCell>
+            {filteredPlants?.map((plant) => {
+                const slugifiedName = plant.name.toLowerCase().replace(/\s+/g, "-")
+                const slug = `${plant.id}--${slugifiedName}`
+                const plantUrl = `/plants/${slug}`
+            
+                return (
+                    <TableRow
+                    key={plant.id}
+                    className="odd:bg-muted/50 [&>*]:whitespace-nowrap"
+                    onClick={() => router.push(plantUrl)}
+                    >
+                        <TableCell className="font-medium">{plant.id}</TableCell>
+                        <TableCell className="font-medium">{plant.name}</TableCell>
+                        <TableCell>{plant.category}</TableCell>
+                        <TableCell>{plant.price}</TableCell>
+                        <TableCell className="font-bold">{plant.stock}</TableCell>
 
-                <TableCell className="text-right">
-                    <div className="flex justify-around space-x-4">
-                        <h1>Edit button</h1>
-                        <h1>Delete button</h1>
-                    </div>
-                </TableCell>
-                </TableRow>
-            ))}
+                        <TableCell className="text-right">
+                            <div className="flex justify-around space-x-4">
+                                <h1>Edit button</h1>
+                                <h1>Delete button</h1>
+                            </div>
+                        </TableCell>
+                    </TableRow>
+                )
+            })}
             </TableBody>
         </Table>
         </div>

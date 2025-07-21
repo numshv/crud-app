@@ -35,3 +35,9 @@ export async function getPlants(searchTerm?: String){
         throw new Error("failed to fetch plants")
     }
 }
+
+export async function getPlantById(id:string) {
+    return await prisma.plant.findUnique({
+        where: { id },
+    })
+}
