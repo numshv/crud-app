@@ -27,7 +27,14 @@ export default function PlantCard({plant}: PlantCardProps){
 
         <CardContent className="text-[15px] text-muted-foreground px-5 py-5 flex flex-row gap-10 flex-wrap justify-between">
           <div className="w-[640px] aspect-video bg-muted rounded-xl justify-center items-center">
-            no image uploaded
+            <img
+              src={
+                plant.imageUrl ||
+                "https://images.pexels.com/photos/28216688/pexels-photo-28216688.png"
+              }
+              alt={plant.name}
+              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-300"
+            />
           </div>
           <div className="flex flex-col gap-4 min-w-[50%]">
               <h1 className="text-4xl text-primary font-bold">{plant.name}</h1>
