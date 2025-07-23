@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { Skeleton } from "./skeleton";
 import { CreateDialog } from "../CreateDialog";
 import { EditDialog } from "../EditDialog";
+import { DeleteDialog } from "../DeleteDialog";
 
 
 type Plants = Awaited<ReturnType<typeof getPlants>>
@@ -128,7 +129,7 @@ export default function InventoryTable({plants}: InventoryTableProps) {
                 <TableHead>Category</TableHead>
                 <TableHead>Price (USD)</TableHead>
                 <TableHead>Stock</TableHead>
-                <TableHead className="">Actions</TableHead>
+                <TableHead className="text-center">Actions</TableHead>
             </TableRow>
             </TableHeader>
             <TableBody className="overflow-hidden">
@@ -151,7 +152,7 @@ export default function InventoryTable({plants}: InventoryTableProps) {
                         <TableCell className="text-right">
                             <div className="flex justify-around space-x-4">
                                 <EditDialog plant={plant} onOpenClick={(e) => e.stopPropagation()}/>
-                                <h1>Delete button</h1>
+                                <DeleteDialog plant={plant} onOpenClick={(e) => e.stopPropagation()}/>
                             </div>
                         </TableCell>
                     </TableRow>
