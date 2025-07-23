@@ -19,6 +19,7 @@ import { getPlants } from "@/actions/plant.action";
 import { useRouter } from "next/navigation";
 import { Skeleton } from "./skeleton";
 import { CreateDialog } from "../CreateDialog";
+import { EditDialog } from "../EditDialog";
 
 
 type Plants = Awaited<ReturnType<typeof getPlants>>
@@ -140,17 +141,16 @@ export default function InventoryTable({plants}: InventoryTableProps) {
                     <TableRow
                     key={plant.id}
                     className="odd:bg-muted/50 [&>*]:whitespace-nowrap"
-                    onClick={() => router.push(plantUrl)}
                     >
-                        <TableCell className="font-medium">{plant.id}</TableCell>
-                        <TableCell className="font-medium">{plant.name}</TableCell>
-                        <TableCell>{plant.category}</TableCell>
-                        <TableCell>{plant.price}</TableCell>
-                        <TableCell className="font-bold">{plant.stock}</TableCell>
+                        <TableCell className="font-medium cursor-pointer" onClick={() => router.push(plantUrl)}>{plant.id}</TableCell>
+                        <TableCell className="font-medium cursor-pointer" onClick={() => router.push(plantUrl)}>{plant.name}</TableCell>
+                        <TableCell className="cursor-pointer" onClick={() => router.push(plantUrl)}>{plant.category}</TableCell>
+                        <TableCell className="cursor-pointer" onClick={() => router.push(plantUrl)}>{plant.price}</TableCell>
+                        <TableCell className="font-bold cursor-pointer" onClick={() => router.push(plantUrl)}>{plant.stock}</TableCell>
 
                         <TableCell className="text-right">
                             <div className="flex justify-around space-x-4">
-                                <h1>Edit button</h1>
+                                <EditDialog plant={plant} onOpenClick={(e) => e.stopPropagation()}/>
                                 <h1>Delete button</h1>
                             </div>
                         </TableCell>
