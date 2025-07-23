@@ -106,6 +106,18 @@ export function CreateDialog() {
                       value={formData.price} onChange={(e) => handleChange("price", parseFloat(e.target.value))} />
               </div>
             </div>
+                {/* <ImageUpload
+                  endpoint="postImage"
+                  value={formData.imageUrl}
+                  onChange={(url: string) => {
+                    handleChange("imageUrl", url);
+                  }}
+                  onUploadingChange={(val) => {
+                    console.log("📦 Uploading status:", val);
+                    setUploading(val)
+                  }}
+                /> */}
+
             <div className="grid gap-3">
               <Label htmlFor="imageUrl">Image link</Label>
               <Input id="imageUrl" 
